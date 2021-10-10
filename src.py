@@ -6,6 +6,70 @@ from copy import deepcopy
 
 ### PARTIE 1 : CREATION DE GRAPHE A PARTIR D'UN FICHIER TEXTE
 
+def parser(filepath:str) -> nx.Graph():
+    """function create graph from text file
+
+    this function can only manage ints and tuples of ints
+
+    format:
+
+    '
+    Nombre de sommets
+    0
+    Sommets
+    0
+    Nombre d aretes
+    0
+    Aretes
+    0 1
+    '
+
+    Parameters
+    ----------
+    filepath : str
+        path location of file
+    Returns
+    -------
+    nx.Graph()
+        graph containing nodes identified with ints in 'sommets' section and nodes identified with tuple of ints in 'aretes'
+    """    
+    
+    with open(filepath) as f:
+        lines = f.readlines()
+    
+    state = 0
+    sommets = []
+    aretes = []
+    for line in lines:
+        #print(line)
+        #print(state)
+        if state == 0:
+            if 'Nombre de sommets' in line:
+                state += 1
+        elif state ==  1:
+            if 'Sommets' in line:
+                state += 1
+        elif state ==  2:
+            if 'Nombre d aretes' in line:
+                state += 1
+            else:
+                sommets.append(int(line))
+        elif state ==  3:
+            if 'Aretes' in line:
+                state += 1
+        elif state ==  4:
+            aretes.append(tuple([int(s) for s in line.split() if s.isdigit()]))
+    G = nx.Graph()
+    G.add_nodes_from(sommets)
+    G.add_edges_from(aretes)
+    return G
+
+"""parser('instance.txt')
+nx.draw(parser('instance.txt'), with_labels=True)
+plt.show()
+"""
+
+
 def draw_graph(G):
     """
     graph -> NoneType
