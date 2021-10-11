@@ -174,9 +174,14 @@ def max_degree(G):
     return max(G.degree,key=lambda x:x[1])
 
 def max_degree_list(E):
+    """
+    list((node,int)) -> (node,int)
+    retourne le couple (n,i) de E où n est le sommet de plus grand degré i
+    """
     return max(E,key=lambda x:x[1])
 
 # 2.2
+
 def generate_random_graph(n,p):
     """
     int * float -> graph
