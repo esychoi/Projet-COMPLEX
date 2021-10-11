@@ -22,5 +22,10 @@ print(algo_couplage(G)) """
 
 """ print(algo_glouton(G)) """
 
+""" print(branch(G))
+print(branch2(G))
+draw_graph(G) """
+
 print(branch(G))
+print(branch3(G))
 draw_graph(G)
