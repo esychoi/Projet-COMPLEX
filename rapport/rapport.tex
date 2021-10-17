@@ -1,0 +1,104 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{fullpage}
+\usepackage{subcaption}
+
+\title{Projet COMPLEX\\Problème du VERTEX COVER}
+\author{Esther CHOI (3800370)\\Folco BERTINI\\M1 DAC - Groupe 1}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\begin{abstract}
+    Ce document constitue le rapport du projet de l'UE COMPLEX, suivie au premier semestre du M1 Informatique à Sorbonne Université. \\
+    Les études de performance ont été réalisés avec un processeur Intel \copyright Core \texttrademark i7-8550U 1.80GHz. \\
+\end{abstract}
+
+\newpage
+
+\section{Définition du problème}
+
+    Une couverture d'un graphe est un ensemble de sommets qui couvre tous les sommets du graphe. \\
+    Le problème \textsc{vertex cover} est défini de la façon suivante :
+
+    \begin{itemize}
+        \item entrée : un graphe non orienté G
+        \item sortie : une couverture de G de taille minimale
+    \end{itemize}
+
+    Le but de ce projet est d'implémenter des algorithmes approchés pour résoudre le problème \textsc{vertex cover}.
+
+\section{Méthodes approchées}
+
+    \paragraph{1)}
+        Soit le graphe $I$ suivant :
+
+        \begin{figure}[h]
+            \caption{Graphe $I$}
+            \includegraphics[scale=0.7]{figures/q3-1.png}
+            \centering
+        \end{figure}
+
+        Une couverture optimale est $C_{opt} = \{0,2,6\}$. L'algorithme glouton renvoie la solution $C = \{0,1,2,5\}$ qui a un sommet de plus (l'exécution complète est donnée en annexe). Ceci montre que algo\_glouton n'est pas optimal et qu'il n'est pas 1.2-approché. \\
+        En effet, s'il l'était, alors pour toute instance de \textsc{vertex cover}, le rapport d'approximation entre la solution retournée et une solution optimale serait inférieur ou égal à 1.2. \\
+        Or pour l'instance $I$ précédente, ce rapport vaut $r = \frac{|C|}{|C_{opt}|} = \frac{4}{3} \approx 1.33 > 1.2$. \\
+        Donc algo\_glouton n'est pas 1.2-approché.
+
+    \paragraph{2)} Comparons les deux algorithmes algo\_couplage et algo\_glouton. \\
+        Pour cela, nous avons commencé par calculer $N_{max}$ comme suggéré dans l'énoncé. Nous avons pris $p = 1$ et nous nous sommes limités à un temps d'éxécution de 10 secondes. Nous avons ainsi trouvé $N_{max} = 600$.
+
+        \begin{enumerate}
+            \item \textit{Comparaison du point de vue du temps de calcul} : \\
+            Les graphiques suivants montrent les temps de calcul pris par les deux algorithmes en fonction de $n$ le nombre de sommets et $p$ la probabilité d'apparition d'une arête (les valeurs sont les valeurs logarithmiques). \\
+            Nous avons pris comme ensemble valeur pour $n$ l'ensemble $\{N_{max}/10, 2N_{max}/10,..., N_{max}\}$. Pour chaque $n$, nous avons généré aléatoirement 10 graphes sur lesquels nous avons appliqué les fonctions algo\_couplage et algo\_glouton. Nous avons pris la moyenne des temps d'exécution. \\
+
+                \begin{figure}[h]
+                    \includegraphics[scale=0.7]{figures/p2.png}
+                    \centering
+                \end{figure}
+
+                \begin{figure}[h]
+                    \includegraphics[scale=0.7]{figures/p6.png}
+                    \centering
+                \end{figure}
+
+                \begin{figure}[h]
+                    \includegraphics[scale=0.7]{figures/p10.png}
+                    \centering
+                \end{figure}
+                
+            De ces graphiques, nous pouvons observer que pour les deux algorithmes, le temps de calcul augmente de façon linéaire avec $n$ et $p$, et que algo\_glouton est nettement meilleur que algo\_couplage. \\
+            Nous pouvions nous y attendre puisque algo\_couplage est en $O(nm)$ et algo\_glouton en $O(??)$
+
+            \item \textit{Comparaison du point de vue de la qualité de la solution} :  %TODO
+        \end{enumerate}
+        
+    %\paragraph{3)}
+        %Supposons qu'il existe $r$ tel que algo\_glouton soit $r$-approché.
+
+\section{Algorithme de branch-and-bound}
+
+    \paragraph{1.2)}
+        Voici le tableau contenant le temps de calcul de la fonction branch en fonction de $n$.
+        %TODO     
+
+    \paragraph{2.1)}
+        Soit $G=(V,E)$ un graphe non orienté, où $V$ est l'ensemble des sommets de et $E$ l'ensemble des arêtes. On note $n = |V|$ et $m = |E|$. \\
+        Soit $M$ un couplage et $C$ une couverture de $G$. \\
+        Posons $b_1 = \lceil \frac{m}{\Delta} \rceil$, $b_2 = |M|$ et $b_3 = \frac{2n-1 - \sqrt{(2n-1)^2 - 8m}}{2}$. \\
+        Montrons que $|C| \geq b_1,b_2,b_3$.
+
+        \begin{itemize}
+            \item Soit $\Delta$ le degré maximum des sommets de $G$. Comme chaque sommet de $C$ est une extrémité d'au plus $\Delta$ arêtes, on a : $|C| \times \Delta \geq m \implies |C| \geq \frac{m}{\Delta}$. \\
+            $|C|$ étant un entier, on peut prendre $b_2 = \lceil \frac{m}{\Delta} \rceil$ comme borne inférieure (???). 
+            \item Pour toute arête de $M$, une de ses extrémités est dans $C$ (sinon elle ne serait pas couverte et $C$ ne serait pas une couverture). De plus, ces extrémités sont toutes distinctes par définition d'un couplage. Ainsi on a bien $\boxed{|C| \geq b_2}$
+            \item ??? [ça ressemble à la formule d'une racine d'un polynôme du second degré.]
+        \end{itemize}
+
+
+\end{document}
