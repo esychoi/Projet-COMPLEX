@@ -1,20 +1,19 @@
 from src import *
 from time import time
 
-""" G = parser('exempleinstance2.txt')
-# draw_graph(G) """
-
-""" print(branch(G))
+#G = parser('exempleinstance2.txt')
+G = generate_random_graph(8,0.62)
+print(algo_couplage(G))
+print(algo_glouton(G))
+print(branch(G))
 print(branch2(G))
-draw_graph(G) """
-
-""" print(branch(G))
 print(branch3(G))
-draw_graph(G) """
+print(branch32(G))
+draw_graph(G)
 
 ### TESTS 3.2 : ALGO_COUPLAGE ET ALGO_GLOUTON
 
-N_max = 600
+""" N_max = 600
 p = 1
 print("N_max =", N_max)
 print("p =", p)
@@ -41,7 +40,7 @@ for k in range(1,11):
         t2 = time()
         tn_couplage += (t2-t1)
         
-
+        #algo_glouton
         t1 = time()
         algo_glouton(G)
         t2 = time()
@@ -57,4 +56,4 @@ for k in range(1,11):
     print("\talgo_couplage :", tn_couplage)
     print("\t\t log :", np.log(tn_couplage))
     print("\talgo_glouton :", tn_glouton)
-    print("\t\t log :", np.log(tn_glouton))
+    print("\t\t log :", np.log(tn_glouton)) """

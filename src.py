@@ -306,7 +306,7 @@ def branch2(G, glouton=False):
         C_tmp = p[1]
 
         if max_degree(G_tmp)[1] == 0:
-            C_tmp.add(list(G.nodes)[0])
+            #C_tmp.add(list(G.nodes)[0])
             if len(C) > len(C_tmp):
                     C = C_tmp
         
@@ -316,9 +316,9 @@ def branch2(G, glouton=False):
             if calcul_bornes(G_tmp) < borne_max:
                 # nb_noeuds_visite += 1
                 if glouton:
-                    essai = np.max([len(algo_couplage(G_tmp)), len(algo_glouton(G_tmp))])
+                    essai = len(G.nodes) + np.max([len(algo_couplage(G_tmp)), len(algo_glouton(G_tmp))])
                 else:
-                    essai = len(algo_couplage(G_tmp))
+                    essai = len(G.nodes) + len(algo_couplage(G_tmp))
                 
                 if essai < borne_max:
                     borne_max = essai
@@ -358,7 +358,7 @@ def branch3(G, glouton=False):
         
 
         if max_degree(G_tmp)[1] == 0:
-            C_tmp.add(list(G.nodes)[0])
+            #C_tmp.add(list(G.nodes)[0])
             if len(C) > len(C_tmp):
                     C = C_tmp
         
@@ -366,9 +366,9 @@ def branch3(G, glouton=False):
             if calcul_bornes(G_tmp) < borne_max:
                 # nb_noeuds_visite += 1
                 if glouton:
-                    essai = np.max([len(algo_couplage(G_tmp)), len(algo_glouton(G_tmp))])
+                    essai = len(G.nodes) + np.max([len(algo_couplage(G_tmp)), len(algo_glouton(G_tmp))])
                 else:
-                    essai = len(algo_couplage(G_tmp))
+                    essai = len(algo_couplage(G_tmp)) + len(G.nodes)
                 
                 if essai < borne_max:
                     borne_max = essai
@@ -382,14 +382,14 @@ def branch3(G, glouton=False):
 
                     C_tmp2 = C_tmp.copy()
                     C_tmp2.add(e[1])
-                    print('---')
+                    """print('---')
                     print(G_tmp.nodes)
                     print(e[0])
-                    print(C_tmp1)
+                    print(C_tmp1)"""
                     voisins = G_tmp[e[0]]
                     C_tmp2 = C_tmp2.union(set(voisins))
-                    print(C_tmp2)
-                    draw_graph(G_tmp)
+                    """print(C_tmp2)
+                    draw_graph(G_tmp)"""
 
                     pile = [(delete_node(G_tmp,e[0]),C_tmp1)] + pile #branche 1
                     if len((delete_list_node(G_tmp,[e[0],e[1]]+list(voisins))).nodes) != 0:
@@ -398,12 +398,82 @@ def branch3(G, glouton=False):
                         if len(C) > len(C_tmp2):
                             C = C_tmp2
 
-                    print(len(pile))
+                    #print(len(pile))
                 else:
                     if len(C) > len(C_tmp):
                         C = C_tmp
     return C
 
 #TODO:
-# 1 - bornes globales
-# 2 - parcours ligne par ligne
+# calcul max degree dans la fonction calcul_borne
+
+
+
+def branch32(G, glouton=False):
+    """
+    graph (* bool) -> set(nodes)
+    retourne une couverture de G avec un algorithme de branch and bound amélioré
+    """
+    C = set(G.nodes) # couverture la plus grande, que l'on va ameliorer en parcourant l'arbre d'enumeration
+    E = np.copy(G.nodes)
+    pile = [(G,set())] # on commence avec le graphe initial et un ensemble vide
+    borne_max = len(G.nodes)
+    # nb_noeuds_visite = 0
+
+    while(len(pile) > 0):
+        p = pile.pop(0) # un noeud de l'arbre
+        G_tmp = p[0]
+        C_tmp = p[1]
+        
+        
+
+        if max_degree(G_tmp)[1] == 0:
+            #C_tmp.add(list(G.nodes)[0])
+            if len(C) > len(C_tmp):
+                    C = C_tmp
+        
+        else:
+            if calcul_bornes(G_tmp) < borne_max:
+                # nb_noeuds_visite += 1
+                if glouton:
+                    essai = len(G.nodes) + np.max([len(algo_couplage(G_tmp)), len(algo_glouton(G_tmp))])
+                else:
+                    essai = len(algo_couplage(G_tmp)) + len(G.nodes)
+                
+                if essai < borne_max:
+                    borne_max = essai
+
+
+                if len(list(G_tmp.edges)) > 0:
+                    u = max_degree(G_tmp)[0] # sommet de degre max
+                    v = list(G[u])[0] # sommet voisin de u
+                    e = (u,v)# on a une arete {u,v} de G_tmp
+
+                    C_tmp1 = C_tmp.copy()
+                    C_tmp1.add(e[0])
+
+                    C_tmp2 = C_tmp.copy()
+                    C_tmp2.add(e[1])
+                    """print('---')
+                    print(G_tmp.nodes)
+                    print(e[0])
+                    print(C_tmp1)"""
+                    voisins = G_tmp[e[0]]
+                    C_tmp2 = C_tmp2.union(set(voisins))
+                    """print(C_tmp2)
+                    draw_graph(G_tmp)"""
+
+                    pile = [(delete_node(G_tmp,e[0]),C_tmp1)] + pile #branche 1
+                    if len((delete_list_node(G_tmp,[e[0],e[1]]+list(voisins))).nodes) != 0:
+                        pile = [(delete_list_node(G_tmp,[e[0],e[1]]+list(voisins)),C_tmp2)] + pile #branche 2
+                    else :
+                        if len(C) > len(C_tmp2):
+                            C = C_tmp2
+
+                    #print(len(pile))
+                else:
+                    if len(C) > len(C_tmp):
+                        C = C_tmp
+    return C
+
+# TODO : comparer les fonctions branch + jolis graphiques + rapport
