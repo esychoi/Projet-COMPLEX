@@ -5,6 +5,7 @@
 \usepackage{graphicx}
 \usepackage{fullpage}
 \usepackage{subcaption}
+\usepackage{float}
 
 \title{Projet COMPLEX\\Problème du VERTEX COVER}
 \author{Esther CHOI (3800370)\\Folco BERTINI\\M1 DAC - Groupe 1}
@@ -75,7 +76,70 @@
             De ces graphiques, nous pouvons observer que pour les deux algorithmes, le temps de calcul augmente de façon linéaire avec $n$ et $p$, et que algo\_glouton est nettement meilleur que algo\_couplage. \\
             Nous pouvions nous y attendre puisque algo\_couplage est en $O(nm)$ et algo\_glouton en $O(??)$
 
-            \item \textit{Comparaison du point de vue de la qualité de la solution} :  %TODO
+            \item \textit{Comparaison du point de vue de la qualité de la solution} :  
+                %TODO
+
+                Le facteur principal afin d'évaluer la qualité des solutions correspond à la dimension (longueur si on réflechit en fonction de structures de données) de la couverture.
+                Nous allons donc analyser la dimension retournée par les methodes en rapport à la solution optimale.
+                On va prendre la moyenne sur 3 essais sur 30 $N$ différents jusqu'à 600.
+
+                \paragraph{$p = 1$} 
+                Avec des graphes complets nous retrouvons des résultats très proches entre les deux méthodes, en effet le rapport est :
+                $\dfrac{dim_{glouton}}{dim_{couplage}} = 0.993 $
+
+                Nous sommes en dessus d'une différence de 5\%, donc on peut supposer de préferer dans ce cas la methode mieux approchée ou plus rapide, selon les nécessités.
+                \begin{figure}[H]
+                    \includegraphics[scale=0.5]{figures/qualite_1.png}
+                    \centering
+                \end{figure}
+
+                \paragraph{$p = 0.25$}{
+                    Nous observons que même en réduisant $p$ jusqu'à $0.25$ (on a bien sûr effectué des test intérmediaires, que nous exclusons de cet document car il n'apportent pas des résultats hors de cette direction) les résultats ne varient beaucoup non plus.
+                    
+                    En effet, $\dfrac{dim_{glouton}}{dim_{couplage}} = 0.938 $ reste un rapport relativement petit.
+                    
+                    \begin{figure}[H]
+                        \includegraphics[scale=0.5]{figures/qualite_025.png}
+                        \centering
+                    \end{figure}
+                }
+                \paragraph{$p = 1/ \sqrt{n}$}
+                    Ce n'est qu'avec des graphes particulièrement vides qu'on commence à observer une différence de qualité remarquable.
+
+                    
+                    En effet, $\dfrac{dim_{glouton}}{dim_{couplage}} = 0.858 $.
+                    La méthode glouton prend le dessus dans ce cas de figure, cela nous indique que avec des graphes de plus en plus vides on s'approche aux cas limites de l'algorithme couplage.
+                    \begin{figure}[H]
+                        \includegraphics[scale=0.5]{figures/qualite_p.png}
+                        \centering
+                    \end{figure}
+
+
+                Nous remarquons que le long de tous les essais, l'algorithme glouton est resté avec une écart inférieur de 5\% avec les solution optimales, alors que le couplage oscillait autour de 10-15\% selon les conditions.
+
+                \begin{figure}[H]
+                    \includegraphics[scale=0.5]{figures/qualite_pvar.png}
+                    \centering
+                \end{figure}
+                
+                En moyenne, avec un graphe avec $n=20$ et en faisant varier p on a $\dfrac{dim_{glouton}}{dim_{optimale}} = 1.083 $ contre $\dfrac{dim_{couplage}}{dim_{optimale}} = 1.334 $.
+                De plus, avec p qui varie de 0 à 1 on obtient le tableau suivant pour $\dfrac{dim_{glouton}}{dim_{couplage}}$ est :
+
+                \begin{center}
+                    \begin{tabular}{ |c c c c c| } 
+                    \hline
+                    0.65384615 & 0.6875 &    0.70945946  & 0.71604938 & 0.74712644  \\
+                    0.78888889 & 0.80337079 & 0.79891304 & 0.81914894 & 0.84375   \\
+                    0.84210526  & 0.87894737 & 0.8814433 & 0.84848485 & 0.89175258 \\
+                     0.88383838 &  0.91752577 & 0.90909091 & 0.915   &    0.95\\
+                    \hline
+                    \end{tabular}
+                    \end{center}
+
+
+                Nous concludons affirmant que le choix de glouton se révele meilleur en terme de qualité malgré le temps d'execution plus grand.
+                Avec des graphes complets la différence peut être considéré négligeable, mais avec des graphes 'vides' l'algorithme glouton prend un avantage plutôt fort.
+
         \end{enumerate}
         
     %\paragraph{3)}
