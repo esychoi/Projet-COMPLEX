@@ -137,6 +137,7 @@ INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT /home/esther/Documents/M1/COMPLEX/Projet-COMPLEX/rapport/figures/q3-1.png
 INPUT /home/esther/Documents/M1/COMPLEX/Projet-COMPLEX/rapport/figures/q3-1.png
 INPUT /home/esther/Documents/M1/COMPLEX/Projet-COMPLEX/rapport/figures/q3-1.png
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmtt12.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmti12.tfm
 INPUT /home/esther/Documents/M1/COMPLEX/Projet-COMPLEX/rapport/figures/tps_exec_couglou25.png
 INPUT /home/esther/Documents/M1/COMPLEX/Projet-COMPLEX/rapport/figures/tps_exec_couglou25.png
@@ -147,6 +148,9 @@ INPUT /home/esther/Documents/M1/COMPLEX/Projet-COMPLEX/rapport/figures/tps_exec_
 INPUT /home/esther/Documents/M1/COMPLEX/Projet-COMPLEX/rapport/figures/tps_exec_couglou75.png
 INPUT /home/esther/Documents/M1/COMPLEX/Projet-COMPLEX/rapport/figures/tps_exec_couglou75.png
 INPUT /home/esther/Documents/M1/COMPLEX/Projet-COMPLEX/rapport/figures/tps_exec_couglou75.png
+INPUT /home/esther/Documents/M1/COMPLEX/Projet-COMPLEX/rapport/figures/tps_exec_couglou25_droites.png
+INPUT /home/esther/Documents/M1/COMPLEX/Projet-COMPLEX/rapport/figures/tps_exec_couglou25_droites.png
+INPUT /home/esther/Documents/M1/COMPLEX/Projet-COMPLEX/rapport/figures/tps_exec_couglou25_droites.png
 INPUT /home/esther/Documents/M1/COMPLEX/Projet-COMPLEX/rapport/figures/qualite_1.png
 INPUT /home/esther/Documents/M1/COMPLEX/Projet-COMPLEX/rapport/figures/qualite_1.png
 INPUT /home/esther/Documents/M1/COMPLEX/Projet-COMPLEX/rapport/figures/qualite_1.png
@@ -156,6 +160,12 @@ INPUT /home/esther/Documents/M1/COMPLEX/Projet-COMPLEX/rapport/figures/qualite_0
 INPUT /home/esther/Documents/M1/COMPLEX/Projet-COMPLEX/rapport/figures/qualite_p.png
 INPUT /home/esther/Documents/M1/COMPLEX/Projet-COMPLEX/rapport/figures/qualite_p.png
 INPUT /home/esther/Documents/M1/COMPLEX/Projet-COMPLEX/rapport/figures/qualite_p.png
+INPUT /home/esther/Documents/M1/COMPLEX/Projet-COMPLEX/rapport/figures/Figure_1.png
+INPUT /home/esther/Documents/M1/COMPLEX/Projet-COMPLEX/rapport/figures/Figure_1.png
+INPUT /home/esther/Documents/M1/COMPLEX/Projet-COMPLEX/rapport/figures/Figure_1.png
+INPUT /home/esther/Documents/M1/COMPLEX/Projet-COMPLEX/rapport/figures/arbre_enum.png
+INPUT /home/esther/Documents/M1/COMPLEX/Projet-COMPLEX/rapport/figures/arbre_enum.png
+INPUT /home/esther/Documents/M1/COMPLEX/Projet-COMPLEX/rapport/figures/arbre_enum.png
 INPUT /home/esther/Documents/M1/COMPLEX/Projet-COMPLEX/rapport/figures/branch1-2_psqrt.png
 INPUT /home/esther/Documents/M1/COMPLEX/Projet-COMPLEX/rapport/figures/branch1-2_psqrt.png
 INPUT /home/esther/Documents/M1/COMPLEX/Projet-COMPLEX/rapport/figures/branch1-2_psqrt.png
@@ -187,3 +197,4 @@ INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb
+INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb
