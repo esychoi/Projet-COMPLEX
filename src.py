@@ -303,7 +303,6 @@ def branch3(G, glouton=False):
         
 
         if max_degree(G_tmp)[1] == 0:
-            #C_tmp.add(list(G.nodes)[0])
             if len(C) > len(C_tmp):
                     C = C_tmp
         
@@ -353,11 +352,6 @@ def branch3(G, glouton=False):
     #print(cpt)
     return C
 
-#TODO:
-# calcul max degree dans la fonction calcul_borne
-
-
-
 def branch32(G, glouton=False):
     """
     graph (* bool) -> set(nodes)
@@ -378,7 +372,6 @@ def branch32(G, glouton=False):
         
 
         if max_degree(G_tmp)[1] == 0:
-            #C_tmp.add(list(G.nodes)[0])
             if len(C) > len(C_tmp):
                     C = C_tmp
         
@@ -428,5 +421,3 @@ def branch32(G, glouton=False):
                         C = C_tmp
     #print(cpt)
     return C
-
-# TODO : comparer les fonctions branch + jolis graphiques + rapport
