@@ -8,7 +8,7 @@
 \usepackage{float}
 
 \title{Projet COMPLEX\\Problème du VERTEX COVER}
-\author{Esther CHOI (3800370)\\Folco BERTINI\\M1 DAC - Groupe 1}
+\author{Esther CHOI (3800370)\\Folco BERTINI (3802296)\\M1 DAC - Groupe 1}
 
 \begin{document}
 
@@ -17,14 +17,14 @@
 
 \begin{abstract}
     Ce document constitue le rapport du projet de l'UE COMPLEX, suivie au premier semestre du M1 Informatique à Sorbonne Université. \\
-    Les tests de performance des différents algorithmes ont été réalisés avec un processeur Intel \copyright Core \texttrademark i7-8550U 1.80GHz. \\
+    Les tests de performance des différents algorithmes ont été réalisés avec un processeur AMD Ryzen 7 3700X 8-Core 1.87 GHz. \\
 \end{abstract}
 
 \newpage
 
 \section{Définition du problème}
 
-    Une couverture d'un graphe est un ensemble de sommets qui couvre toutes les arêtes du graphe (une arête est couverte lorsqu'au moins une de ses extrémité se trouve dans la couverture). \\
+    Une couverture d'un graphe est un ensemble de sommets qui couvre toutes les arêtes du graphe (une arête est couverte lorsqu'au moins une de ses extrémités se trouve dans la couverture). \\
     Le problème \textsc{vertex cover} est défini de la façon suivante :
 
     \begin{itemize}
@@ -36,7 +36,7 @@
 
 \section{Graphes}
 
-    Pour l'implémentation de nos graphes, nous avons choisi d'utiliser la librairie networkx qui contient de nombreuses fonctions pratiques dont nous nous sommes servis pour coder les méthodes de base.
+    Pour l'implémentation de nos graphes, nous avons choisi d'utiliser la librairie \texttt{networkx} qui contient de nombreuses fonctions pratiques dont nous nous sommes servies pour coder les méthodes de base.
     
 \section{Méthodes approchées}
 
@@ -45,7 +45,7 @@
 
         \begin{figure}[h]
             \caption{Graphe $I$}
-            \includegraphics[scale=0.7]{figures/q3-1.png}
+            \includegraphics[scale=0.6]{figures/q3-1.png}
             \centering
         \end{figure}
 
@@ -76,14 +76,14 @@
 
     \paragraph{3.2)}
         Comparons les deux algorithmes \texttt{algo\_couplage} et \texttt{algo\_glouton}. \\
-        Pour cela, nous avons commencé par calculer $N_{max}$ comme suggéré dans l'énoncé. Nous avons pris $p = 1$ et nous nous sommes limités à un temps d'éxécution de quelques secondes. Nous avons ainsi trouvé $N_{max} = 200$.
+        Pour cela, nous avons commencé par calculer $N_{max}$ comme suggéré dans l'énoncé. Nous avons pris $p = 1$ et nous nous sommes limités à un temps d'exécution de quelques secondes. Nous avons ainsi trouvé $N_{max} = 200$.
 
         \begin{enumerate}
             \item \textit{Comparaison du point de vue du temps de calcul} : \\
-                Les graphiques suivants montrent les temps de calcul pris par les deux algorithmes en fonction de $n$ le nombre de sommets et $p$ la probabilité d'apparition d'une arête (nous avons passé les abscisses et les ordonnées au log). \\
-                Nous avons pris comme ensemble valeur pour $n$ l'ensemble $\{N_{max}/10, 2N_{max}/10,..., N_{max}\}$. Pour chaque $n$, nous avons généré aléatoirement 10 graphes sur lesquels nous avons appliqué les fonctions \texttt{algo\_couplage} et \texttt{algo\_glouton}. Nous avons pris la moyenne des temps d'exécution. \\
+                Les graphiques suivants montrent les temps de calcul pris par les deux algorithmes en fonction de $n$ le nombre de sommets et $p$ la probabilité d'apparition d'une arête (nous avons passé les abscisses et les ordonnées au log base $e$). \\
+                Nous avons pris comme ensemble de valeurs pour $n$ l'ensemble $\{N_{max}/10, 2N_{max}/10,..., N_{max}\}$. Pour chaque $n$, nous avons généré aléatoirement 10 graphes sur lesquels nous avons appliqué les fonctions \texttt{algo\_couplage} et \texttt{algo\_glouton}. Nous avons ensuite pris la moyenne des temps d'exécution. \\
 
-                \begin{figure}[h]
+                \begin{figure}[H]
                     \caption{gauche : $p=0.25$, droite : $p=0.5$, bas : $p=0.75$}
                     \includegraphics[scale=0.5]{figures/tps_exec_couglou25.png}
                     \includegraphics[scale=0.5]{figures/tps_exec_couglou5.png}
@@ -91,10 +91,10 @@
                     \centering
                 \end{figure}
 
-                Dans ces graphiques, nous pouvons observer que pour les deux algorithmes, le temps de calcul augmente de façon linéaire avec $n$ et $p$, et que \texttt{algo\_couplage} est nettement meilleur que \texttt{algo\_glouton} en termes de temps d'exécution. \\
+                Dans ces graphiques, nous pouvons observer que \texttt{algo\_couplage} est nettement meilleur que \texttt{algo\_glouton} en termes de temps d'exécution. \\
                 Pour estimer la complexité de ces algorithmes, nous avons tracé la droite qui se rapproche le plus de nos données expérimentales (grâce à la fonction \texttt{polyfit} de \texttt{numpy}) pour mesurer sa pente. Par exemple, pour $p=0.25$, nous avons :
                 
-                \begin{figure}[h]
+                \begin{figure}[H]
                     \centering
                     \includegraphics[scale=0.6]{figures/tps_exec_couglou25_droites.png}
                 \end{figure}
@@ -103,13 +103,11 @@
 
             \item \textit{Comparaison du point de vue de la qualité de la solution} :  
 
-                Le facteur principal pour évaluer la qualité des solutions est la longueur de la couverture. \\
-                Nous allons donc comparer la dimension (ie la longueurs) des solutions retournées par les deux algorithmes. \\
-                Nous avons pris la moyenne sur 3 essais sur 30 $N$ différents jusqu'à 100.
+                Le facteur principal pour évaluer la qualité des solutions est la dimension (i.e. la longueur) de la couverture. Nous allons donc comparer la dimension des solutions retournées par les deux algorithmes. \\
+                Pour faire les tests, nous avons ici pris la moyenne sur 3 essais pour 30 valeurs de $n$ différentes jusqu'à 100.
 
                 \paragraph{$p = 1$} 
-                    Avec des graphes complets, nous retrouvons des résultats très proches entre les deux méthodes, en effet le rapport est :
-                $\dfrac{dim_{glouton}}{dim_{couplage}} = 0.993 $
+                    Avec des graphes complets, nous trouvons des résultats très proches entre les deux méthodes : en effet, le rapport est $\dfrac{dim_{glouton}}{dim_{couplage}} = 0.993 $
 
                     %Nous sommes en-dessous d'une différence de 5\%, donc on peut supposer de préferer dans ce cas la methode mieux approchée ou plus rapide, selon les nécessités.
 
@@ -155,7 +153,7 @@
                 \end{center}
 
                 Nous concluons en affirmant que l'algorithme glouton se révele meilleur en terme de qualité malgré un temps d'exécution plus long.
-                Lorsqu'il y a beaucoup d'arêtes, la différence peut être considérée négligeable, mais avec des graphes "vides", l'algorithme glouton prend un avantage plutôt fort.
+                Lorsqu'il y a beaucoup d'arêtes, la différence peut être considérée négligeable, mais avec des graphes ``vides", l'algorithme glouton prend un avantage plutôt fort.
 
         \end{enumerate}
 
@@ -163,8 +161,8 @@
 
     \paragraph{4.1.2)}
         La méthode décrite dans cette question correspond à notre fonction \texttt{branch}. \\
-        La pile contient les noœuds de l'arbre à explorer. Chaque noœud est un couple $(G,C)$ où $G$ est le graphe réduit au fur et à mesure et $C$ la couverture en construction. \\
-        Soit le graphe $J$ suivant :
+        La pile contient les nœuds de l'arbre à explorer. Chaque nœud est un couple $(G,C)$ où $G$ est le graphe réduit au fur et à mesure et $C$ la couverture en construction. \\
+        Vérifions sa validité sur un exemple simple. Soit le graphe $J$ suivant :
 
         \begin{figure}[H]
             \caption{Graphe J}
@@ -172,7 +170,7 @@
             \centering
         \end{figure}
 
-        Voici l'abre d'énumération de \texttt{branch} sur le graphe $J$. Dans chaque noœud, on choisit une arête, et on branche sur les extrémités de cette arête (le chiffre sur les arcs correspond au sommet choisi) :
+        Voici l'abre d'énumération de \texttt{branch} sur le graphe $J$. Dans chaque nœud, on choisit une arête, et on branche sur les extrémités de cette arête (le chiffre sur les arcs correspond au sommet choisi) :
 
         \begin{figure}[H]
             \caption{Arbre d'énumération pour l'instance J}
@@ -180,7 +178,7 @@
             \centering
         \end{figure}
 
-        La description de chacun des noœuds est donné ci-dessous :
+        La description de chacun des nœuds est donné ci-dessous :
 
         \begin{itemize}
             \item A : $C_{tmp} = \{\}$ ; $G_{tmp}.edges=\{\{0,1\},\{1,3\},\{3,2\},\{0,2\},\{0,3\}\}$ ; arête choisie : \{0,1\}
@@ -198,10 +196,10 @@
             \item M : $C_{tmp} = \{0,1,3\}$ ; $G_{tmp}.edges=\{\}$
         \end{itemize}
 
-        Ainsi à la fin, on retourne \{0,3\}.
+        Ainsi à la fin, on retourne \{0,3\} qui est bien la meilleure solution calculée.
 
     \paragraph{4.2.1)}
-        Soit $G=\{V,E)$ un graphe non orienté, où $V$ est l'ensemble des sommets de et $E$ l'ensemble des arêtes. On note $n = |V|$ et $m = |E|$. \\
+        Soit $G=(V,E)$ un graphe non orienté, où $V$ est l'ensemble des sommets et $E$ l'ensemble des arêtes. On note $n = |V|$ et $m = |E|$. \\
         Soit $M$ un couplage et $C$ une couverture de $G$. \\
         Posons $b_1 = \lceil \frac{m}{\Delta} \rceil$, $b_2 = |M|$ et $b_3 = \frac{2n-1 - \sqrt{(2n-1)^2 - 8m}}{2}$. \\
         Montrons que $|C| \geq b_1,b_2,b_3$.
@@ -215,10 +213,10 @@
             \item On souhaite déterminer le nombre maximal d'arêtes d'un graphe à $n$ sommets et de couverture $C$. Posons $|C| = x$. \\
             Dans le graphe, il y a deux types d'arêtes :
             \begin{itemize}
-                \item celles dont les deux extrémités sont dans $C$ : il y a en a au plus $\frac{x(x-1)}{2}$ (c'est le nombre d'arêtes dans un graphe complet à $x$ sommets) car chaque sommet de $C$ est relié aux $x-1$ autres sommets de $C$, et on divise par 2 pour ne pas compter deux fois la même arêtes
+                \item celles dont les deux extrémités sont dans $C$ : il y a en a au plus $\frac{x(x-1)}{2}$ (c'est le nombre d'arêtes dans un graphe complet à $x$ sommets) car chaque sommet de $C$ est relié aux $x-1$ autres sommets de $C$, et on divise par 2 pour ne pas compter deux fois la même arête
                 \item celles dont seule une extrémité est dans $C$ : il y en a au plus $x(n-x)$ car chaque sommet de $C$ est relié aux $n-x$ autres sommets qui n'appartiennent pas à $C$.
             \end{itemize}
-            Il n'y en a pas d'autres car sinon elle ne serait pas couverte par $C$, ce qui serait contradictoire avec le fait que $C$ est une couverture.
+            Il n'y en a pas d'autre car sinon elle ne serait pas couverte par $C$, ce qui contredirait le fait que $C$ soit une couverture.
             Ainsi, nous avons l'inégalité suivante :
             \begin{align*}
                 m &\leq \frac{x(x-1)}{2} + x(n-x) \\
@@ -233,7 +231,7 @@
 
     \paragraph{4.2.2)}
         Il s'agit de notre fonction \texttt{branch2}. \\
-        A chaque noœud, on calcule les bornes inférieures du graphe considéré et on explore les noœuds fils uniquement si la couverture en construction la borne inférieure est plus petite que la borne supérieure. \\
+        A chaque nœud, on calcule le max des bornes inférieures du graphe considéré et on explore les nœuds fils uniquement cette borne inférieure est plus petite que la borne supérieure. \\
         Lorsqu'il n'y a plus d'arête dans le graphe, on compare la couverture que l'on a construite avec celle que l'on possède déjà, et on garde la meilleure des deux.
     
     \paragraph{4.3.1)}
@@ -248,7 +246,7 @@
         \begin{itemize}
             \item \textit{Comparaison de branch v1 et branch v2} \\
                 Ici, nous nous sommes limités à $N_{max} = 20$ ou 30, et nous avons calculé les temps d'exécution pour $p = 1/\sqrt{n}$. \\
-                Nous avons passé les temps au log.
+                Nous avons passé les temps au log base $e$.
     
                 \begin{figure}[H]
                     \caption{Comparaison de branch v1 et branch v2}
@@ -257,7 +255,7 @@
                 \end{figure}
     
                 Nous pouvons voir que quand $n$ est petit, branch v1 est meilleur, mais que pour des $n$ plus grands, branch v2 devient meilleur. \\
-                Ceci peut s'expliquer par le fait que quand il y a peu de sommets et que $p$ est faible, parcourir l'arbre en entier ne prends pas autant de temps que de faire appel à la fonction \texttt{algo\_couplage}. En ravenche, plus $n$ est grand, plus l'arbre devient grand, et plus le calcul des bornes inférieures devient pertinent pour élaguer des noœuds.
+                Ceci peut s'expliquer par le fait que quand il y a peu de sommets et que $p$ est faible, parcourir l'arbre en entier ne prends pas autant de temps que de faire appel à la fonction \texttt{algo\_couplage}. En ravenche, plus $n$ est grand, plus l'arbre devient grand, et plus le calcul des bornes inférieures devient pertinent pour élaguer des nœuds.
 
             \item \textit{Comparaison de branch v2 et branch v2 avec l'algo glouton} \\
                 \begin{figure}[h]
@@ -265,7 +263,7 @@
                     \includegraphics[scale=0.6]{figures/branch2-2glou.png}
                     \centering
                 \end{figure}
-                Nous observons que l'utilisation de l'algorthme glouton permet d'aller plus vite : comme il est de meilleure qualité, on peut élaguer plus de noœuds.
+                Nous observons que l'utilisation de l'algorthme glouton permet d'aller plus vite : comme il est de meilleure qualité, on peut élaguer plus de nœuds.
 
             \item \textit{Comparaison de branch v2 glouton et branch v3} \\
             \begin{figure}[h]
@@ -285,7 +283,6 @@
             De même, comme le branchement a été amélioré, le temps d'exécution de branch v3-2 est meilleur que le branch v3.
             
         \end{itemize}
-        
 
     \paragraph{4.4.1)}
         Le graphique suivant montre l'évolution de la longueur de la couverture pour un graphe à $n=20$ sommets, en fonction de $p$.
@@ -301,8 +298,10 @@
         Ceci confirme que l'algorithme glouton donne une meilleure solution que l'algorithme de couplage puique son rapport d'approximation est plus petit.
 
 \section{Conclusion générale}
+    
+    Les algorithmes approchés ont pour avantage de pouvoir tourner relativement rapidement sur des grands graphes, et la solution qu'ils retournent n'est pas particulièrement mauvaise. \\
 
-    L'algorithme de branch-and-bound est plutôt efficace pour résoudre de manière exacte le problème du \textsc{vertex cover} et il peut toujours être amélioré grâces à des bonnes bornes inférieures et des bonnes heuristiques de branchement.       
+    L'algorithme de branch-and-bound est plutôt efficace pour résoudre de manière exacte le problème du \textsc{vertex cover} et il peut toujours être amélioré grâces à des bonnes bornes inférieures et des bonnes heuristiques de branchement. Cela permet à la fois de gagner en temps d'exécution et de pouvoir calculer la couverture de graphes plus grands.       
 
 
 \end{document}

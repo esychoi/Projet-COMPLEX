@@ -2,13 +2,13 @@ from src import *
 from time import time
 
 #G = parser('exempleinstance2.txt')
-G = generate_random_graph(10,0.62)
+G = generate_random_graph(4,0.6)
 #print(algo_couplage(G))
 #print(algo_glouton(G))
 print(branch(G))
-print(branch2(G))
-print(branch3(G))
-print(branch32(G))
+#print(branch2(G))
+#print(branch3(G))
+#print(branch32(G))
 #draw_graph(G)
 
 ### TESTS 3.2 : ALGO_COUPLAGE ET ALGO_GLOUTON

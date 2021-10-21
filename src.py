@@ -185,6 +185,9 @@ def branch(G):
         p = pile.pop(0) # un noeud de l'arbre
         G_tmp = p[0]
         C_tmp = p[1]
+        print(C_tmp)
+        print(G_tmp.edges)
+        draw_graph(G_tmp)
 
         if len(list(G_tmp.edges)) > 0:
             #cpt += 1
