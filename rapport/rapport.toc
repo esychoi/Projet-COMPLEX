@@ -1,10 +1,17 @@
-\contentsline {section}{\numberline {1}Définition du problème}{2}{}%
-\contentsline {section}{\numberline {2}Méthodes approchées}{2}{}%
-\contentsline {paragraph}{1)}{2}{}%
-\contentsline {paragraph}{2)}{3}{}%
-\contentsline {paragraph}{$p = 1$}{4}{}%
-\contentsline {paragraph}{$p = 0.25$}{4}{}%
-\contentsline {paragraph}{$p = 1/ \sqrt {n}$}{5}{}%
-\contentsline {section}{\numberline {3}Méthodes exactes : algorithme de branch-and-bound}{6}{}%
-\contentsline {paragraph}{1.2)}{6}{}%
-\contentsline {paragraph}{2.1)}{6}{}%
+\contentsline {section}{\numberline {1}D\IeC {\'e}finition du probl\IeC {\`e}me}{2}
+\contentsline {section}{\numberline {2}Graphes}{2}
+\contentsline {section}{\numberline {3}M\IeC {\'e}thodes approch\IeC {\'e}es}{2}
+\contentsline {paragraph}{3.1)}{2}
+\contentsline {paragraph}{3.2)}{3}
+\contentsline {paragraph}{$p = 1$}{4}
+\contentsline {paragraph}{$p = 0.25$}{5}
+\contentsline {paragraph}{$p = 1/ \sqrt {n}$}{5}
+\contentsline {section}{\numberline {4}M\IeC {\'e}thodes exactes : algorithme de branch-and-bound}{6}
+\contentsline {paragraph}{4.1.2)}{6}
+\contentsline {paragraph}{4.2.1)}{6}
+\contentsline {paragraph}{4.2.2)}{7}
+\contentsline {paragraph}{4.3.1)}{7}
+\contentsline {paragraph}{4.3.2)}{7}
+\contentsline {paragraph}{Comparaison des algorithmes de branch-and-bound)}{7}
+\contentsline {paragraph}{4.4.1)}{9}
+\contentsline {section}{\numberline {5}Conclusion g\IeC {\'e}n\IeC {\'e}rale}{10}

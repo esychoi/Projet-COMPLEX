@@ -8,11 +8,8 @@ from copy import deepcopy
 
 def parser(filepath:str) -> nx.Graph():
     """function create graph from text file
-
     this function can only manage ints and tuples of ints
-
     format:
-
     '
     Nombre de sommets
     0
@@ -23,7 +20,6 @@ def parser(filepath:str) -> nx.Graph():
     Aretes
     0 1
     '
-
     Parameters
     ----------
     filepath : str
@@ -71,67 +67,6 @@ def draw_graph(G):
     """
     nx.draw(G, with_labels=True)
     plt.show()
-
-def extract_nodes(s):
-    """
-    string -> (int,int)
-    s : chaine de caractere d'une arete
-    retourne les noms des sommets de s
-    """
-    i,s1,s2 = 0,'',''
-
-    while s[i] != ' ':
-        s1 += s[i]
-        i += 1
-    i += 1
-    while s[i] != '\n':
-        s2 += s[i]
-        i += 1
-    return (int(s1),int(s2))
-
-def createGraphFromTxt(filename, show=False):
-    """
-    str * bool (False by default) -> graph
-    retourne le graphe décrit dans le fichier filename
-    """
-    try:
-        f = open(filename, "r")
-        nodes = [] #liste des sommets
-        edges  = [] #liste des arêtes
-
-        f.readline() # "Nombre de sommets\n"
-        f.readline() # nb de sommets
-        checkpoint = f.readline() # "Sommets\n", checkpoint initial
-        line = f.readline() # premier sommet
-
-        while(line):
-            if line == "Nombre d aretes\n":
-                checkpoint = "Aretes" #fin lecture de sommets, lecture des aretes
-                f.readline() # nb d'aretes
-                f.readline() #"Aretes\n"
-
-            elif checkpoint == "Sommets\n" and str.isnumeric(line.replace("\n", "")):
-                nodes.append(int(line))
-
-            elif checkpoint == "Aretes":
-                a = extract_nodes(line)
-                edges.append(a)
-
-            line = f.readline()
-
-        #creation du graphe
-        graph = nx.Graph()
-        graph.add_nodes_from(nodes)
-        graph.add_edges_from(edges)
-
-        if(show):
-            draw_graph(graph)
-
-        return graph
-
-    finally:
-        f.close()
-
 
 ### PARTIE 2 : GRAPHE
 
@@ -219,12 +154,17 @@ def algo_glouton(G):
     graph -> set(node)
     retourne une couverture de G
     """
+    G_tmp = G.copy()
     C = set()
-    E = np.copy(G.edges)
+    E = np.copy(G_tmp.edges)
+    D = np.copy(G_tmp.degree)
+
     while len(E) > 0:
-        v = max_degree_list(E)[0]
+        v = max_degree_list(D)[0]
         C.add(v)
-        E = E[np.where((E[:,0] != v) & (E[:,1] != v))]
+        G_tmp = delete_node(G_tmp,v)
+        D = list(G_tmp.degree)
+        E = list(G_tmp.edges)
     return C
 
 
@@ -238,8 +178,8 @@ def branch(G):
     retourne une couverture optimale de G en parcourant tout l'arbre d'énumération
     """
     C = set(G.nodes) # couverture la plus grande, que l'on va ameliorer en parcourant l'arbre d'enumeration
-    E = np.copy(G.nodes)
     pile = [(G,set())] # on commence avec le graphe initial et un ensemble vide
+    #cpt = 0
 
     while(len(pile) > 0):
         p = pile.pop(0) # un noeud de l'arbre
@@ -247,16 +187,18 @@ def branch(G):
         C_tmp = p[1]
 
         if len(list(G_tmp.edges)) > 0:
-            e = list(G_tmp.edges)[0] # on prend une arete de G_tmp
+            #cpt += 1
+            e = list(G_tmp.edges)[0] # on prend une arete {u,v} de G_tmp
             C_tmp1 = C_tmp.copy()
             C_tmp1.add(e[0])
             C_tmp2 = C_tmp.copy()
             C_tmp2.add(e[1])
-            pile = [(delete_node(G_tmp,e[0]),C_tmp1)] + pile
-            pile = [(delete_node(G_tmp,e[1]),C_tmp2)] + pile
+            pile = [(delete_node(G_tmp,e[0]),C_tmp1)] + pile    # branchement sur u
+            pile = [(delete_node(G_tmp,e[1]),C_tmp2)] + pile    # branchement sur v
         else:
             if len(C) > len(C_tmp):
                 C = C_tmp
+    #print(cpt)
     return C
 
 # 4.2
@@ -297,44 +239,46 @@ def branch2(G, glouton=False):
     C = set(G.nodes) # couverture la plus grande, que l'on va ameliorer en parcourant l'arbre d'enumeration
     E = np.copy(G.nodes)
     pile = [(G,set())] # on commence avec le graphe initial et un ensemble vide
-    borne_max = len(G.nodes)
+    borne_max = len(C)
     # nb_noeuds_visite = 0
+    #cpt = 0
 
     while(len(pile) > 0):
         p = pile.pop(0) # un noeud de l'arbre
         G_tmp = p[0]
         C_tmp = p[1]
-
+        
+        
         if max_degree(G_tmp)[1] == 0:
-            #C_tmp.add(list(G.nodes)[0])
             if len(C) > len(C_tmp):
                     C = C_tmp
         
-        #print(C_tmp)
-        #draw_graph(G_tmp)
         else:
             if calcul_bornes(G_tmp) < borne_max:
                 # nb_noeuds_visite += 1
                 if glouton:
-                    essai = len(G.nodes) + np.max([len(algo_couplage(G_tmp)), len(algo_glouton(G_tmp))])
+                    #essai = len(C) + np.max([len(algo_couplage(G_tmp)), len(algo_glouton(G_tmp))])
+                    essai = len(algo_glouton(G_tmp))
                 else:
-                    essai = len(G.nodes) + len(algo_couplage(G_tmp))
+                    essai = len(algo_couplage(G_tmp)) 
                 
                 if essai < borne_max:
                     borne_max = essai
 
 
                 if len(list(G_tmp.edges)) > 0:
+                    #cpt += 1
                     e = list(G_tmp.edges)[0] # on prend une arete de G_tmp
                     C_tmp1 = C_tmp.copy()
                     C_tmp1.add(e[0])
                     C_tmp2 = C_tmp.copy()
                     C_tmp2.add(e[1])
-                    pile = [(delete_node(G_tmp,e[0]),C_tmp1)] + pile
-                    pile = [(delete_node(G_tmp,e[1]),C_tmp2)] + pile
+                    pile = pile + [(delete_node(G_tmp,e[0]),C_tmp1)]
+                    pile = pile + [(delete_node(G_tmp,e[1]),C_tmp2)]
                 else:
                     if len(C) > len(C_tmp):
                         C = C_tmp
+    #print(cpt)
     return C
 
 # 4.3
@@ -347,8 +291,9 @@ def branch3(G, glouton=False):
     C = set(G.nodes) # couverture la plus grande, que l'on va ameliorer en parcourant l'arbre d'enumeration
     E = np.copy(G.nodes)
     pile = [(G,set())] # on commence avec le graphe initial et un ensemble vide
-    borne_max = len(G.nodes)
+    borne_max = len(C)
     # nb_noeuds_visite = 0
+    #cpt = 0
 
     while(len(pile) > 0):
         p = pile.pop(0) # un noeud de l'arbre
@@ -366,15 +311,18 @@ def branch3(G, glouton=False):
             if calcul_bornes(G_tmp) < borne_max:
                 # nb_noeuds_visite += 1
                 if glouton:
-                    essai = len(G.nodes) + np.max([len(algo_couplage(G_tmp)), len(algo_glouton(G_tmp))])
+                    #essai = len(C) + np.max([len(algo_couplage(G_tmp)), len(algo_glouton(G_tmp))])
+                    essai = len(C) + len(algo_glouton(G_tmp))
                 else:
-                    essai = len(algo_couplage(G_tmp)) + len(G.nodes)
+                    essai = len(algo_couplage(G_tmp)) + len(C)
                 
                 if essai < borne_max:
                     borne_max = essai
 
 
                 if len(list(G_tmp.edges)) > 0:
+                    #cpt += 1
+                    
                     e = list(G_tmp.edges)[0] # on prend une arete {u,v} de G_tmp
 
                     C_tmp1 = C_tmp.copy()
@@ -402,6 +350,7 @@ def branch3(G, glouton=False):
                 else:
                     if len(C) > len(C_tmp):
                         C = C_tmp
+    #print(cpt)
     return C
 
 #TODO:
@@ -417,8 +366,9 @@ def branch32(G, glouton=False):
     C = set(G.nodes) # couverture la plus grande, que l'on va ameliorer en parcourant l'arbre d'enumeration
     E = np.copy(G.nodes)
     pile = [(G,set())] # on commence avec le graphe initial et un ensemble vide
-    borne_max = len(G.nodes)
+    borne_max = len(C)
     # nb_noeuds_visite = 0
+    #cpt = 0
 
     while(len(pile) > 0):
         p = pile.pop(0) # un noeud de l'arbre
@@ -436,15 +386,17 @@ def branch32(G, glouton=False):
             if calcul_bornes(G_tmp) < borne_max:
                 # nb_noeuds_visite += 1
                 if glouton:
-                    essai = len(G.nodes) + np.max([len(algo_couplage(G_tmp)), len(algo_glouton(G_tmp))])
+                    #essai = len(C) + np.max([len(algo_couplage(G_tmp)), len(algo_glouton(G_tmp))])
+                    essai = len(C) + len(algo_glouton(G_tmp))
                 else:
-                    essai = len(algo_couplage(G_tmp)) + len(G.nodes)
+                    essai = len(algo_couplage(G_tmp)) + len(C)
                 
                 if essai < borne_max:
                     borne_max = essai
 
 
                 if len(list(G_tmp.edges)) > 0:
+                    #cpt += 1
                     u = max_degree(G_tmp)[0] # sommet de degre max
                     v = list(G[u])[0] # sommet voisin de u
                     e = (u,v)# on a une arete {u,v} de G_tmp
@@ -474,6 +426,7 @@ def branch32(G, glouton=False):
                 else:
                     if len(C) > len(C_tmp):
                         C = C_tmp
+    #print(cpt)
     return C
 
 # TODO : comparer les fonctions branch + jolis graphiques + rapport
